@@ -110,13 +110,6 @@ def processor(user_request):
     response_text, events = processor_agent(user_name, agent_requests)
     return response_text, events
 
-def generate_events_for_users(content: str, user_mentions: List[Dict]) -> List[CalendarEvent]:
-    events = []
-    for user in user_mentions:
-        context = load_user_context(user)
-        event = mock_generate_event(content, context)
-        events.append(event)
-    return events
 
 if __name__ == "__main__":
     # Sample request 1: Single user meeting
