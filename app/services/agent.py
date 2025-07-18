@@ -1,20 +1,20 @@
 # app/services/agent.py
 
-from openai import AzureOpenAI
+import os
 import json
 import uuid
 from datetime import datetime
 from typing import Literal
-from app.config import API_KEY, AZURE_ENDPOINT, DEPLOYMENT_NAME
+from app.config import OPENAI_API_KEY, MODEL_NAME
 # from app.schemas.event import CalendarEvent
 import time
+from openai import OpenAI
 
-# Initialize client
-client = AzureOpenAI(
-    api_key=API_KEY,
-    api_version="2023-12-01-preview",
-    azure_endpoint=AZURE_ENDPOINT
-)
+# Initialize OpenAI client
+client = OpenAI(api_key=OPENAI_API_KEY)
+
+# Use GPT‑4o Mini model
+MODEL_NAME = MODEL_NAME
 
 # calendar_event_schema = CalendarEvent.schema()  # Pydantic schema
 # Tool function schema
@@ -88,7 +88,7 @@ def safe_llm_call(call_fn, retries=3, delay=1):
 def plan_task(user_input: str) -> Literal["normal_response", "fetch_info_event", "modify_info_event"]:
     def _call():
         response = client.chat.completions.create(
-            model=DEPLOYMENT_NAME,
+            model=MODEL_NAME,
             messages=[
                 {"role": "system", "content": (
                     "You are a planner for a calendar assistant. Your job is to decide the intent type of the user input.\n"
@@ -119,7 +119,7 @@ def run_agent(user_name: str, agent_request: dict, fetched_info=""):
     if plan == "normal_response":
         def _call():
             return client.chat.completions.create(
-                model=DEPLOYMENT_NAME,
+                model=MODEL_NAME,
                 messages=[
                     {"role": "system", "content": "You are a helpful assistant."},
                     {"role": "user", "content": user_input}
@@ -137,7 +137,7 @@ def run_agent(user_name: str, agent_request: dict, fetched_info=""):
     elif plan == "modify_info_event":
         def _call():
             return client.chat.completions.create(
-                model=DEPLOYMENT_NAME,
+                model=MODEL_NAME,
                 messages=[
                     {"role": "system", "content": "You are a smart calendar assistant. For given user_name, find sequence of calendar events for modifying the calendar"},
                     {"role": "user", "content": user_input}
@@ -152,7 +152,7 @@ def run_agent(user_name: str, agent_request: dict, fetched_info=""):
         return {"type": "modify_info_event", "event": parsed_events.get("events", [])}
 
     else:
-        return {"type": "error", "message": "Unknown plan"}
+        return {"type": "error", "message": f"Unknown plan '{plan}'"}
 
 
 # Example
