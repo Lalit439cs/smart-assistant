@@ -29,5 +29,6 @@ smart-assistant/
 ├── tests/
 │   ├── __init__.py
 │   ├── test_chat.py
+│   ├── test_user_processor.py
 │   └── test_generate_event.py
 
