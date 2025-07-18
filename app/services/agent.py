@@ -9,6 +9,7 @@ from app.config import OPENAI_API_KEY, MODEL_NAME
 # from app.schemas.event import CalendarEvent
 import time
 from openai import OpenAI
+from app.services.event_fetcher import fetch_user_events_context
 
 # Initialize OpenAI client
 client = OpenAI(api_key=OPENAI_API_KEY)
@@ -130,8 +131,9 @@ def run_agent(user_name: str, agent_request: dict, fetched_info=""):
         return {"type": "normal_response", "content": response.choices[0].message.content.strip()}
 
     elif plan == "fetch_info_event":
-        fetched_events = [{"title": "Mock Event", "start_time": "2025-07-23T18:30:00+00:00"}]
-        context = f"User ({user_name}) has the following calendar events:-\n {json.dumps(fetched_events)}"
+        # Use real event fetching instead of mock data
+        user_id = agent_request.get("user_id", "")
+        context = fetch_user_events_context(user_id, user_name)
         return run_agent(user_name, agent_request, context)
 
     elif plan == "modify_info_event":
