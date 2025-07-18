@@ -2,6 +2,7 @@
 smart AI assistant whcih will manage your calendar and track activities
 
 # project structure
+```
 smart-assistant/
 ├── README.md
 ├── pyproject.toml              # Optional: if using poetry/pdm
@@ -31,4 +32,4 @@ smart-assistant/
 │   ├── test_chat.py
 │   ├── test_user_processor.py
 │   └── test_generate_event.py
-
+```
