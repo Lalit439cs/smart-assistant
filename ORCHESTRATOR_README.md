@@ -19,7 +19,7 @@ pip install -r requirements.txt
 
 ### 2. Start the Server
 ```bash
-uvicorn main:app --reload --port 8001
+uvicorn main:app --reload --port 8000
 ```
 
 ### 3. Test the API
