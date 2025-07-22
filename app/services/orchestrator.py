@@ -79,13 +79,13 @@ def convert_events_to_supabase_format(events: List[Dict[str, Any]], request: Orc
             "location": event_dict.get("location", ""),
             "category": event_dict.get("category", "internal_meeting"),
             "user_id": user_id,
-            "user_name": user_name,  # Include for user creation
-            "user_email": user_email,  # Include for user creation
+            # "user_name": user_name,  # Include for user creation
+            # "user_email": user_email,  # Include for user creation
             "created_at": created_at,
             "updated_at": updated_at,
-            "priority": event_dict.get("priority", "medium"),
-            "participants": event_dict.get("participants", []),
-            "amount": event_dict.get("amount")
+            # "priority": event_dict.get("priority", "medium"),
+            # "participants": event_dict.get("participants", []),
+            # "amount": event_dict.get("amount")
         }
         
         # Remove None values to avoid Supabase issues
