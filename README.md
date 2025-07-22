@@ -1,5 +1,5 @@
 # smart-assistant
-smart AI assistant whcih will manage your calendar and track activities
+smart AI assistant which will manage your calendar and track activities
 
 # project structure
 ```
